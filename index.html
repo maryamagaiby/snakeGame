@@ -20,6 +20,12 @@
 
     <script>
         // ===== GAME SETUP =====
+        /*!SECTION
+        the issue , I don't understand what the current code do, i just see 2 object one is red and one is black and have no idea what is the purpose of the code, can you explain it to me in simple words, explain each line of the code and what it does, and also explain the purpose of the code in general
+        
+        AI response:
+        This is an array containing the snake’s three segments. Each { x, y } object stores a segment’s position in grid squares. The first object is the head; the next two are the body. The segments are side by side, so they look like one short black snake.
+        */
         const canvas =
             document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
@@ -32,6 +38,7 @@
             { x: 9, y: 10 },
             { x: 8, y: 10 }
         ];
+        //head
         let direction = { x: 1, y: 0 };
         let food = { x: 15, y: 15 };
         let score = 0;
@@ -64,6 +71,21 @@
         // BUILD THE GAME FROM HERE
         // ===================================
         //
+        // game loop
+        const moveSnake =()=>{
+            let newHead= {
+                x:snake[0].x + direction.x,
+                y:snake[0].y + direction.y
+            }
+            snake.unshift(newHead);// after adding this code for the first time, would have 4 of them, the last idex of the snake array is extra, so we r=need to remove it
+            snake.pop();
+            
+            drawGame();
+            
+            
+        }
+        setInterval(moveSnake,300);
+        
         // Use your custom agent in VS Code Chat 
         // to guide your work through each step. 
         // Commit regularly.
