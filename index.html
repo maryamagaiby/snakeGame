@@ -84,14 +84,28 @@
             
             
         }
-        setInterval(moveSnake,300);
+        setInterval(moveSnake,1000);
+        // Step 2: Keyboard controls (arrow keys)
+        
+        window.addEventListener('keydown', e => {
+            if(e.key === 'ArrowUp' && direction.y ===0){
+                direction ={ x: 0, y: -1}
+            } else if(e.key === 'ArrowDown' && direction.y ===0){
+                direction ={ x: 0, y: 1}
+            } else if(e.key === 'ArrowLeft' && direction.y ===0){
+                direction ={ x: -1, y: 1}
+            }else if(e.key === 'ArrowRight' && direction.y ===0){
+                direction ={ x: 1, y: 1}
+            }
+            
+        })
         
         // Use your custom agent in VS Code Chat 
         // to guide your work through each step. 
         // Commit regularly.
         //
         // Step 1: Movement (game loop)
-        // Step 2: Keyboard controls (arrow keys)
+        
         // Step 3: Eating and growing
         // Step 4: Game over
         // Step 5: Improvements
