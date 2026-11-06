@@ -1,0 +1,12 @@
+#id{
+    font-size: medium;
+    font-weight: 400;
+    color: blue;
+    margin-top: auto;
+}
+#message{
+    font-size: large;
+    color: red;
+    font-style: normal;
+    font-weight: 300;
+}
