@@ -17,6 +17,7 @@
     <canvas id="gameCanvas" width="400"
             height="400"></canvas>
     <p id="info"></p>
+    <p id="message"></p>
 
     <script>
         // ===== GAME SETUP =====
@@ -42,6 +43,12 @@
         let direction = { x: 1, y: 0 };
         let food = { x: 15, y: 15 };
         let score = 0;
+        const message = document.getElementById("message");
+        let gameOver = false;
+        let gameTimer;
+        const updateScore = () => {
+        scoreDisplay.textContent = `Score: ${score}`;
+        };
 
         // ===== DRAWING =====
         const drawGame = () => {
@@ -73,10 +80,21 @@
         //
         // game loop
         const moveSnake =()=>{
+            if(gameOver) return;
             let newHead= {
                 x:snake[0].x + direction.x,
                 y:snake[0].y + direction.y
             }
+            const hitWall = newHead.x < 0 || newHead.y < 0 ||
+            newHead.x >= tileCount || newHead.y >= tileCount;
+            const eating = newHead.x === food.x && newHead.y === food.y;
+            const body = eating ? snake : snake.slice(0, -1);
+            const hitBody = body.some(part => part.x === newHead.x && part.y === newHead.y);
+            if (hitWall || hitBody) {
+                endGame();
+            return;}
+            
+            
             snake.unshift(newHead);// after adding this code for the first time, would have 4 of them, the last idex of the snake array is extra, so we r=need to remove it
             
             
@@ -92,7 +110,7 @@
             let currentTail= snake[snakeLen-1];
             snake.push({x: currentTail.x -1, y: currentTail.y});
             const displayScore= document.getElementById("info");
-            score.innerText= "score"+ score;
+            score.textContent= "score"+ score;
             
             
             
@@ -102,8 +120,9 @@
         drawGame();
             
         }
-        setInterval(moveSnake,1000);
+        gameTimer =setInterval(moveSnake,1000);
         // Step 2: Keyboard controls (arrow keys)
+        
         
         document.addEventListener('keydown', e => {
             if (e.key === "ArrowUp" && direction.y !== 1) {
@@ -132,7 +151,36 @@
         // Step 5: Improvements
         //
         // ===================================
+        
+function endGame() {
+    gameOver = true;
+    clearInterval(gameTimer);
+    message.textContent = "Game over! Press Enter to restart.";
+}
+function restartGame(){
+    // ===== INITIAL STATE =====
+    snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+    direction = { x: 1, y: 0 };
+    food = { x: 15, y: 15 };
+    score = 0;
+    gameTimer = setInterval(moveSnake, 1000);
 
+        // ===== DRAWING =====
+        
+        gameOver=false;
+        message.textContent= " ";
+        gameTime=setInterval(moveSnake, 1000);
+        drawGame();
+        
+        
+}
+
+document.addEventListener('keydown', e => {
+    if (gameOver && e.key === "Enter") {
+        restartGame();
+        return;
+    }
+});
     </script>
 
 </body>
